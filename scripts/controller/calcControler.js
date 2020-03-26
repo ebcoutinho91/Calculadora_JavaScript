@@ -1,8 +1,8 @@
 class CalcController{
 /* Se for usar um recurso mais de uma vez, transforma-lo em método
- */
+*/
     constructor(){
-
+        this._operation = []
         this._locale = 'pt-BR'
         this._displayCalcEl = document.querySelector('#display')
         this._dateEl = document.querySelector('#data')
@@ -21,7 +21,71 @@ class CalcController{
             this.setDisplayDateTime()
 
         }, 1000)
+    }
 
+    clearAll(){
+
+        this._operation = []
+
+    }
+
+    clearEntry(){
+
+        this._operation.pop()
+
+    }
+
+    addOperation(value){
+        this._operation.push(value)
+        console.log(this._operation)
+    }
+
+    setError(){
+        this.displayCalc = 'Error'
+    }
+
+    execBtn(value){
+        switch (value) {
+            case 'ac':
+                this.clearAll()
+                break;
+            case 'ce':
+                this.clearEntry()
+                break;
+            case 'soma':
+                this.soma()
+                break;
+            case 'subtracao':
+                this.subtracao
+                break;
+            case 'divisao':
+                this.divisao()
+                break;
+            case 'multiplicacao':
+                this.multiplicacao()
+                break;
+            case 'porcento':
+                this.porcento()
+                break;
+            case 'igual':
+                this.igual()
+                break; 
+            case '0':
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+            case '6':
+            case '7':
+            case '8':
+            case '9':
+                this.addOperation(parseInt(value))
+                break;
+            default:
+                this.setError()
+                break;
+        }
 
     }
 
@@ -29,11 +93,15 @@ class CalcController{
 
         let buttons = document.querySelectorAll('#buttons > g, #parts >g')
 
-        buttons.forEach(btn=>{
+        buttons.forEach((btn, index)=>{
 
             btn.addEventListener('click', e=>{
-                
-                console.log(e)
+
+            let txtBtn = (btn.className.baseVal.replace('btn-', ''))
+
+            this.execBtn(txtBtn)
+
+
             })
         })
     }
